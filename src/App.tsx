@@ -39,7 +39,6 @@ function App() {
             </Toolbar>
           </AppBar>
           <Paper component="main" sx={{ padding: 1.5 }}>
-            <p>{JSON.stringify(selections)}</p>
             {Object.entries(questions.questions).map(
               ([qid, value]: [string, TQuestion]) => (
                 <Question
