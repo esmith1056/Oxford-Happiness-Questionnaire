@@ -1,14 +1,15 @@
 import "fontsource-roboto";
-import { AppBar, Toolbar, Container, Typography, Box } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Container from "@mui/material/Container";
+import Typography from "@mui/material/Typography";
+import Paper from "@mui/material/Paper";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+
+import Question, { TQuestion } from "./components/question/Question";
 
 import questions from "./prop/questions.json";
 import "./App.css";
-
-type TQuestion = {
-  text: string;
-  flip?: boolean;
-};
 
 const theme = createTheme({
   typography: {
@@ -17,20 +18,6 @@ const theme = createTheme({
     },
   },
 });
-
-const Question = ({
-  qid,
-  question,
-}: {
-  qid: string;
-  question: TQuestion;
-}): JSX.Element => {
-  return (
-    <p>
-      {qid}. {question.text} {question.flip === true ? "(X)" : ""}
-    </p>
-  );
-};
 
 function App() {
   return (
@@ -44,13 +31,18 @@ function App() {
               </Typography>
             </Toolbar>
           </AppBar>
-          <Box component="main" sx={{ padding: 1.5 }}>
+          <Paper component="main" sx={{ padding: 1.5 }}>
             {Object.entries(questions.questions).map(
               ([qid, value]: [string, TQuestion]) => (
-                <Question key={qid} qid={qid} question={value} />
+                <Question
+                  key={qid}
+                  qid={qid}
+                  question={value}
+                  scale={questions.scale}
+                />
               )
             )}
-          </Box>
+          </Paper>
         </Container>
       </div>
     </ThemeProvider>
