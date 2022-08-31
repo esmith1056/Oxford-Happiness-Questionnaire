@@ -10,6 +10,7 @@ import Question, { TQuestion } from "./components/question/Question";
 
 import questions from "./prop/questions.json";
 import "./App.css";
+import { useState } from "react";
 
 const theme = createTheme({
   typography: {
@@ -20,6 +21,12 @@ const theme = createTheme({
 });
 
 function App() {
+  const [selections, setSelections] = useState({});
+
+  const updateSelections = (qid: string, value: string) => {
+    setSelections(() => ({ ...selections, [qid]: value }));
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
@@ -32,6 +39,7 @@ function App() {
             </Toolbar>
           </AppBar>
           <Paper component="main" sx={{ padding: 1.5 }}>
+            <p>{JSON.stringify(selections)}</p>
             {Object.entries(questions.questions).map(
               ([qid, value]: [string, TQuestion]) => (
                 <Question
@@ -39,6 +47,7 @@ function App() {
                   qid={qid}
                   question={value}
                   scale={questions.scale}
+                  cb={updateSelections}
                 />
               )
             )}
