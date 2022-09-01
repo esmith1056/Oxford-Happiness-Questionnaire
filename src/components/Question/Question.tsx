@@ -12,29 +12,32 @@ export type TQuestion = {
 
 const Question = ({
   qid,
-  question,
+  text,
   scale,
-  cb,
+  flip,
+  handleSelection,
 }: {
   qid: string;
-  question: TQuestion;
+  text: string;
   scale: Record<string, string>;
-  cb: any;
+  handleSelection: any;
+  flip?: boolean;
 }): JSX.Element => {
   const [selected, setSelected] = useState("");
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = (event.target as HTMLInputElement).value;
-    setSelected(value);
-    cb(qid, value);
-  };
+  const handleChange =
+    (qid: string) => (event: ChangeEvent<HTMLInputElement>) => {
+      const value = (event.target as HTMLInputElement).value;
+      setSelected(value);
+      handleSelection(qid, value);
+    };
 
   return (
     <Box sx={{ marginBottom: 5 }}>
       <FormLabel>
-        {qid}. {question.text} {question.flip === true ? "(X)" : ""} {selected}
+        {qid}. {text} {flip === true ? "(X)" : ""} {selected}
       </FormLabel>
-      <RadioGroup value={selected} onChange={handleChange}>
+      <RadioGroup value={selected} onChange={handleChange(qid)}>
         {Object.entries(scale).map(([v, l]) => (
           <FormControlLabel key={v} value={v} control={<Radio />} label={l} />
         ))}
